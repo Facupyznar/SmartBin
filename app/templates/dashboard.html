@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}Mis SmartBins | SmartBin{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">📦 Mis SmartBins</h1>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4">
+    {% for bin in bins %}
+    <div class="col">
+        <div class="card shadow-sm {% if bin.estado == 'stock bajo' %}border-danger{% else %}border-success{% endif %}">
+            <div class="card-body">
+                <h5 class="card-title">{{ bin.nombre }}</h5>
+
+                <p class="card-text">
+                    Peso actual: 
+                    {% if bin.ultima_lectura %}
+                        {{ bin.ultima_lectura.peso }}g
+                    {% else %}
+                        <span class="text-muted">Sin datos</span>
+                    {% endif %}
+                </p>
+
+                <p class="text-muted small">Estado: 
+                    {% if bin.estado == 'stock bajo' %}
+                        <span class="text-danger fw-bold">⚠️ Stock bajo</span>
+                    {% else %}
+                        <span class="text-success">🟢 OK</span>
+                    {% endif %}
+                </p>
+
+                <a href="{{ url_for('sidebar.detalle_bin', bin_id=bin.IDBin) }}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    <!-- Card para añadir nuevo bin -->
+    <div class="col">
+        <div class="card text-center border-primary border-dashed shadow-sm">
+            <div class="card-body">
+                <a href="{{ url_for('sidebar.agregar_bin') }}" class="text-decoration-none">
+                    <div class="fs-1 text-primary mb-2">+</div>
+                    <p class="fw-bold">Añadir SmartBin</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

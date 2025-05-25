@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block title %}Perfil | SmartBin{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">👤 Mi Perfil</h1>
+<p>Acá podrás ver y editar tu información personal.</p>
+
+<ul class="list-group">
+    <li class="list-group-item"><strong>Usuario:</strong> {{ current_user.nombre }}</li>
+    <li class="list-group-item"><strong>Email:</strong> {{ current_user.email }}</li>
+    <li class="list-group-item"><strong>Fecha de creación:</strong> {{ current_user.fecha_creacion.strftime('%d/%m/%Y %H:%M') }}</li>
+</ul>
+{% endblock %}

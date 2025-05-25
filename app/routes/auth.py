@@ -16,7 +16,7 @@ def login():
         user = User.login(nombre, password)
         if user:
             login_user(user)
-            return redirect(url_for('main.index'))  # ajustá según tu app
+            return redirect(url_for('sidebar.dashboard'))  
         else:
             flash('Usuario o contraseña incorrectos.')
     return render_template('login.html')

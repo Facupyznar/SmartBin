@@ -3,6 +3,7 @@ from flask_login import LoginManager
 from flask_wtf.csrf import CSRFProtect
 
 from app.routes.auth import auth_bp
+from app.routes.sidebar import sidebar_bp
 from app.config import Config
 from app.database import db
 from app.models.user import User
@@ -31,6 +32,7 @@ def create_app():
 
     # Registrar Blueprint de autenticación
     app.register_blueprint(auth_bp)
+    app.register_blueprint(sidebar_bp)
 
     return app
 

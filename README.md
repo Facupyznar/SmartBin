@@ -31,37 +31,3 @@ La app también puede enviar comandos al ESP32 (por ejemplo: reset, calibración
 3. Desde la app web, ingresa o escanea ese código.
 4. Flask **verifica que el bin esté libre** y lo asocia a su cuenta.
 5. El bin comienza a enviar datos, y queda visible en su dashboard.
-
-
-          ┌─────────────┐
-          │  SmartBin   │
-          │  (ESP32)    │
-          │ Sensor peso │
-          └─────┬───────┘
-                │ MQTT (peso)
-                ▼
-       ┌────────────────────┐
-       │      Broker        │
-       │      MQTT          │
-       └─────┬──────────────┘
-             │ Suscripción: smartbin/lectura
-             ▼
-     ┌───────────────────────┐
-     │       Flask App       │
-     │    Procesa lectura    │
-     │    Consulta BD        │
-     │    Registra evento    │
-     └──────┬────────────────┘
-            │
-            │ REST API / WebSocket / Alertas
-            ▼
-   ┌───────────────────────────┐
-   │     Frontend Web App      │
-   │    Dashboard por usuario  │
-   │    Registro de bins       │
-   │    Configuración de stock │
-   └────────────┬──────────────┘
-                │
-                ▼
-         👤 Usuario final
-

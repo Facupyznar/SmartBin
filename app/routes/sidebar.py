@@ -1,6 +1,7 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect, flash, url_for
 from flask_login import login_required, current_user
 from app.models.bin import Bin
+from app.database import db
 
 sidebar_bp = Blueprint('sidebar', __name__)
 
@@ -27,7 +28,35 @@ def perfil():
 def configuracion():
     return render_template('configuracion.html')
 
-@sidebar_bp.route('/agregar-bin')
+@sidebar_bp.route('/agregar_bin', methods=['GET', 'POST'])
 @login_required
 def agregar_bin():
-    return render_template('agregar_bin.html') 
+    if request.method == 'POST':
+        uid_hardware = request.form.get('uid_hardware')
+        nombre = request.form.get('nombre')
+        ubicacion = request.form.get('ubicacion')
+
+        if not uid_hardware or not nombre:
+            flash("El código del bin y el nombre son obligatorios.")
+            return redirect(url_for('sidebar.agregar_bin'))
+
+        # Validar que no esté ya registrado
+        existente = Bin.query.filter_by(uid_hardware=uid_hardware).first()
+        if existente:
+            flash("Este SmartBin ya fue registrado.")
+            return redirect(url_for('sidebar.agregar_bin'))
+
+        # Crear el nuevo bin
+        nuevo_bin = Bin(
+            IDUser=current_user.IDUser,
+            uid_hardware=uid_hardware,
+            nombre=nombre,
+            ubicacion=ubicacion
+        )
+        db.session.add(nuevo_bin)
+        db.session.commit()
+
+        flash("SmartBin agregado con éxito.")
+        return redirect(url_for('sidebar.dashboard'))
+
+    return render_template('agregar_bin.html')

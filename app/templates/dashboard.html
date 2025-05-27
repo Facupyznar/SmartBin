@@ -20,6 +20,14 @@
                         <span class="text-muted">Sin datos</span>
                     {% endif %}
                 </p>
+                <p class="card-text">
+                    Unidades estimadas restantes:
+                    {% if bin.peso_unitario %}
+                        {{ bin.cantidad_piezas }} piezas
+                    {% else %}
+                        <span class="text-muted">N/D</span>
+                    {% endif %}
+                </p>
 
                 <p class="text-muted small">Estado: 
                     {% if bin.estado == 'stock bajo' %}
@@ -29,7 +37,7 @@
                     {% endif %}
                 </p>
 
-                <a href="{{ url_for('sidebar.detalle_bin', bin_id=bin.IDBin) }}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
+                <a href="{{ url_for('dashboard.detalle_bin', bin_id=bin.IDBin) }}" class="btn btn-outline-primary btn-sm">Ver detalles</a>
             </div>
         </div>
     </div>
@@ -39,7 +47,7 @@
     <div class="col">
         <div class="card text-center border-primary border-dashed shadow-sm">
             <div class="card-body">
-                <a href="{{ url_for('sidebar.agregar_bin') }}" class="text-decoration-none">
+                <a href="{{ url_for('dashboard.agregar_bin') }}" class="text-decoration-none">
                     <div class="fs-1 text-primary mb-2">+</div>
                     <p class="fw-bold">Añadir SmartBin</p>
                 </a>

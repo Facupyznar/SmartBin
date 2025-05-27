@@ -3,10 +3,34 @@
 {% block title %}Configuración | SmartBin{% endblock %}
 
 {% block content %}
-<h1 class="mb-4">⚙️ Configuración</h1>
-<p>Acá vas a poder ajustar preferencias del sistema, como notificaciones o datos generales de la cuenta (próximamente).</p>
+<h1 class="mb-4">⚙️ Configuración de SmartBins</h1>
 
-<div class="alert alert-warning">
-    Esta sección todavía está en desarrollo.
-</div>
+<p class="text-muted">Acá podés ajustar el peso por unidad y el stock mínimo (en unidades) para cada SmartBin.</p>
+
+{% if bins %}
+    {% for bin in bins %}
+    <div class="card mb-4">
+        <div class="card-header bg-primary text-white">
+            {{ bin.nombre }} ({{ bin.uid_hardware }})
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('dashboard.actualizar_config_bin', bin_id=bin.IDBin) }}">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="peso_unitario_{{ bin.IDBin }}" class="form-label">Peso unitario (g/pieza)</label>
+                        <input type="number" step="0.01" class="form-control" id="peso_unitario_{{ bin.IDBin }}" name="peso_unitario" value="{{ bin.peso_unitario or '' }}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="stock_minimo_unidades_{{ bin.IDBin }}" class="form-label">Stock mínimo (unidades)</label>
+                        <input type="number" class="form-control" id="stock_minimo_unidades_{{ bin.IDBin }}" name="stock_minimo_unidades" value="{{ bin.stock_minimo_unidades or '' }}">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-success">💾 Guardar cambios</button>
+            </form>
+        </div>
+    </div>
+    {% endfor %}
+{% else %}
+    <p class="text-muted">No hay SmartBins registrados.</p>
+{% endif %}
 {% endblock %}

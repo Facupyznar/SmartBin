@@ -9,6 +9,8 @@ class Bin(db.Model):
     nombre = db.Column(db.String(100), nullable=False)
     ubicacion = db.Column(db.String(100), nullable=True)
     fecha_creacion = db.Column(db.DateTime, default=db.func.current_timestamp())
+    peso_unitario = db.Column(db.Float)
+    stock_minimo_unidades = db.Column(db.Integer)
 
     # Relación opcional con User (si la querés usar desde el modelo)
     user = db.relationship('User', backref='bins')
